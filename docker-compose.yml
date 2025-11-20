@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: heroiclabs/nakama-postgres:16.2
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=localdev
+      - POSTGRES_USER=localdev
+      - POSTGRES_DB=nakama
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'localdev']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  nakama:
+    image: heroiclabs/nakama:3.21.1
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint:
+      - /bin/sh
+      - -ecx
+      - >
+        /nakama/nakama migrate up --database.address postgres://localdev:localdev@postgres:5432/nakama?sslmode=disable &&
+        exec /nakama/nakama --name nakama1 --database.address postgres://localdev:localdev@postgres:5432/nakama?sslmode=disable
+        --runtime.path /nakama/data/modules --config /nakama/data/config.yml
+    volumes:
+      - ./nakama/build:/nakama/data/modules:ro
+      - ./nakama/local.yml:/nakama/data/config.yml:ro
+    ports:
+      - '7350:7350'
+      - '7351:7351'

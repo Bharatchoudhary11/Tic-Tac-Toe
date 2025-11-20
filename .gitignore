@@ -1,0 +1,8 @@
+node_modules
+dist
+build
+!nakama/build/.gitkeep
+.DS_Store
+*.log
+client/node_modules
+nakama/node_modules

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "outDir": "build",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@heroiclabs/nakama-runtime": ["src/nakama-runtime"]
+    },
+    "typeRoots": ["./src", "./node_modules/@types"]
+  },
+  "include": ["src"]
+}

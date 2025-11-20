@@ -1,0 +1,16 @@
+{
+  "name": "nakama-tic-tac-toe",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build:server": "npm run build --workspace=nakama",
+    "dev:client": "npm run dev --workspace=client",
+    "build:client": "npm run build --workspace=client",
+    "lint:client": "npm run lint --workspace=client",
+    "install:all": "npm install --workspaces"
+  },
+  "workspaces": [
+    "nakama",
+    "client"
+  ]
+}

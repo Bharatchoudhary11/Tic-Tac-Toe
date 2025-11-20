@@ -1,0 +1,21 @@
+name: "tic-tac-toe-cluster"
+data_dir: "/nakama/data"
+
+socket:
+  port: 7350
+  server_key: "defaultkey"
+  max_message_size_bytes: 4096
+
+console:
+  port: 7351
+  username: "admin"
+  password: "admin123"
+
+runtime:
+  js_entrypoint: "index.js"
+
+session:
+  token_expiry_sec: 600
+
+logger:
+  level: "info"
