@@ -114,13 +114,6 @@ declare type MatchmakerMatchedFunction = (
   matches: MatchmakerEntry[],
 ) => string | null;
 
-declare type MatchCreateFunction<S> = (
-  context: Context,
-  logger: Logger,
-  nk: Nakama,
-  params: Record<string, unknown>,
-) => MatchHandler<S>;
-
 declare interface MatchHandler<S> {
   matchInit: MatchInitFunction<S>;
   matchJoinAttempt: MatchJoinAttemptFunction<S>;
@@ -130,12 +123,10 @@ declare interface MatchHandler<S> {
   matchTerminate: MatchTerminateFunction<S>;
 }
 
-  declare type MatchRegistration<T> = MatchCreateFunction<T> | MatchHandler<T>;
-
-  declare interface Initializer {
-    registerMatch<T>(name: string, createFn: MatchRegistration<T>): void;
-    registerMatchmakerMatched(name: string, fn: MatchmakerMatchedFunction): void;
-  }
+declare interface Initializer {
+  registerMatch<T>(name: string, handler: MatchHandler<T>): void;
+  registerMatchmakerMatched(name: string, fn: MatchmakerMatchedFunction): void;
+}
 
 declare interface Nakama {
   matchCreate(module: string, params?: Record<string, unknown>): string;
