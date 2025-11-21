@@ -1,21 +1,4 @@
-import type {
-  Dispatcher,
-  InitModule,
-  Logger,
-  MatchCreateFunction,
-  MatchData,
-  MatchHandler,
-  MatchInitFunction,
-  MatchJoinAttemptFunction,
-  MatchJoinFunction,
-  MatchLabel,
-  MatchLeaveFunction,
-  MatchLoopFunction,
-  MatchmakerMatchedFunction,
-  MatchPresence,
-  MatchTerminateFunction,
-  Nakama,
-} from '@heroiclabs/nakama-runtime';
+/// <reference path="./nakama-runtime.d.ts" />
 
 const MATCH_NAME = 'tictactoe';
 const TICK_RATE = 5;
@@ -58,8 +41,6 @@ interface TicTacToeState {
   createdAt: string;
   label: MatchLabel;
 }
-
-const textDecoder = new TextDecoder();
 
 const winningLines = [
   [0, 1, 2],
@@ -167,7 +148,7 @@ const handleMove = (
 
   let parsed: { index?: number };
   try {
-    parsed = JSON.parse(textDecoder.decode(message.data));
+    parsed = JSON.parse(nk.binaryToString(message.data));
   } catch (err) {
     logger.error('Failed to parse move payload: %q', err);
     dispatcher.broadcastMessage(OpCode.ERROR, JSON.stringify({ message: 'Invalid payload.' }), [message.presence]);
