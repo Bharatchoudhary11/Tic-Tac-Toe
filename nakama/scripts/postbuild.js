@@ -5,8 +5,9 @@ const { resolve } = require('path');
 
 const outputPath = resolve(__dirname, '../build/index.js');
 const source = readFileSync(outputPath, 'utf8');
-const cleaned = source.replace(/\n?module\.exports\s*=\s*{[^}]+};?\s*$/, '\n');
 
-if (cleaned !== source) {
-  writeFileSync(outputPath, cleaned.trimEnd() + '\n', 'utf8');
+// Ensure the compiled bundle always ends with a single newline to satisfy linting tools
+// while keeping the module.exports assignment intact for Nakama to load InitModule.
+if (!source.endsWith('\n')) {
+  writeFileSync(outputPath, source + '\n', 'utf8');
 }

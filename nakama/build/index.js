@@ -214,3 +214,4 @@ const initModule = (ctx, logger, nk, initializer) => {
     logger.info('Authoritative Tic-Tac-Toe module loaded.');
 };
 globalThis.InitModule = initModule;
+module.exports = { InitModule: initModule };
