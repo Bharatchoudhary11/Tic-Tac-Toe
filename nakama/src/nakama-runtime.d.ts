@@ -130,10 +130,12 @@ declare interface MatchHandler<S> {
   matchTerminate: MatchTerminateFunction<S>;
 }
 
-declare interface Initializer {
-  registerMatch<T>(name: string, createFn: MatchCreateFunction<T>): void;
-  registerMatchmakerMatched(name: string, fn: MatchmakerMatchedFunction): void;
-}
+  declare type MatchRegistration<T> = MatchCreateFunction<T> | MatchHandler<T>;
+
+  declare interface Initializer {
+    registerMatch<T>(name: string, createFn: MatchRegistration<T>): void;
+    registerMatchmakerMatched(name: string, fn: MatchmakerMatchedFunction): void;
+  }
 
 declare interface Nakama {
   matchCreate(module: string, params?: Record<string, unknown>): string;
