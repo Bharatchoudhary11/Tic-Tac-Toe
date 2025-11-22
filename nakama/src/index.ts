@@ -282,7 +282,7 @@ const matchmakerMatched: MatchmakerMatchedFunction = (_ctx, logger, nk, matches)
     return null;
   }
   const ticket = matches[0].ticket;
-  const mode = ticket?.string_properties?.mode;
+  const mode = ticket && ticket.string_properties ? ticket.string_properties.mode : undefined;
   if (mode !== MATCH_NAME) {
     logger.debug('Skipping ticket for mode %q', mode);
     return null;
