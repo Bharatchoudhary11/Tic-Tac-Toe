@@ -14,7 +14,7 @@ services:
       retries: 10
 
   nakama:
-    image: heroiclabs/nakama:3.21.1
+    image: heroiclabs/nakama:3.16.0
     depends_on:
       postgres:
         condition: service_healthy

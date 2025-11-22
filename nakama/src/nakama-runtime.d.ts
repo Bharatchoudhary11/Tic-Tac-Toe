@@ -136,4 +136,4 @@ declare interface Nakama {
 declare type InitModule = (ctx: Context, logger: Logger, nk: Nakama, initializer: Initializer) => void;
 
 declare const nk: Nakama;
-declare var InitModule: InitModule;
+declare function InitModule(ctx: Context, logger: Logger, nk: Nakama, initializer: Initializer): void;

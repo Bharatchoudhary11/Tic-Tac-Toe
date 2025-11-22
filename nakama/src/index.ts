@@ -268,6 +268,15 @@ const matchTerminate: MatchTerminateFunction<TicTacToeState> = (_ctx, _logger, _
   state,
 });
 
+const matchHandler: MatchHandler<TicTacToeState> = {
+  matchInit: matchInit,
+  matchJoinAttempt: matchJoinAttempt,
+  matchJoin: matchJoin,
+  matchLeave: matchLeave,
+  matchLoop: matchLoop,
+  matchTerminate: matchTerminate,
+};
+
 const matchmakerMatched: MatchmakerMatchedFunction = (_ctx, logger, nk, matches) => {
   if (matches.length === 0) {
     return null;
@@ -282,18 +291,8 @@ const matchmakerMatched: MatchmakerMatchedFunction = (_ctx, logger, nk, matches)
   return nk.matchCreate(MATCH_NAME);
 };
 
-const initModule: InitModule = (ctx, logger, nk, initializer) => {
-  initializer.registerMatch(MATCH_NAME, {
-    matchInit,
-    matchJoinAttempt,
-    matchJoin,
-    matchLeave,
-    matchLoop,
-    matchTerminate,
-  });
+function InitModule(ctx: Context, logger: Logger, nk: Nakama, initializer: Initializer): void {
+  initializer.registerMatch(MATCH_NAME, matchHandler);
   initializer.registerMatchmakerMatched(`${MATCH_NAME}_matchmaker`, matchmakerMatched);
   logger.info('Authoritative Tic-Tac-Toe module loaded.');
-};
-
-globalThis.InitModule = initModule;
-module.exports = { InitModule: initModule };
+}
