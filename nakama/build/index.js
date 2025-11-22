@@ -214,3 +214,8 @@ function InitModule(ctx, logger, nk, initializer) {
     initializer.registerMatchmakerMatched(`${MATCH_NAME}_matchmaker`, matchmakerMatched);
     logger.info('Authoritative Tic-Tac-Toe module loaded.');
 }
+// Explicitly export the entrypoint to ensure Nakama can discover it when
+// loading the compiled JavaScript module. Without this assignment the
+// function remains scoped to the module wrapper and the server crashes while
+// trying to register the match handler.
+globalThis.InitModule = InitModule;
