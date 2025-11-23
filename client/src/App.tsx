@@ -11,7 +11,7 @@ const MAX_PLAYERS = 2;
 const decoder = new TextDecoder();
 
 const host = import.meta.env.VITE_NAKAMA_HOST ?? '127.0.0.1';
-const port = Number.parseInt(import.meta.env.VITE_NAKAMA_PORT ?? '7350', 10);
+const port = import.meta.env.VITE_NAKAMA_PORT ?? '7350';
 const useSSL = (import.meta.env.VITE_NAKAMA_SSL ?? 'false') === 'true';
 const serverKey = import.meta.env.VITE_NAKAMA_SERVER_KEY ?? 'defaultkey';
 
@@ -40,7 +40,7 @@ const App = () => {
   const registerSocketHandlers = (socket: Socket) => {
     socket.onmatchmakermatched = async (matchmakerMatched) => {
       try {
-        const match = await socket.joinMatchToken(matchmakerMatched.token);
+        const match = await socket.joinMatch(undefined, matchmakerMatched.token);
         matchIdRef.current = match.match_id;
         setStage('playing');
         setInfo('Opponent found. Good luck!');
@@ -102,7 +102,7 @@ const App = () => {
     resetGameState();
     await leaveCurrentMatch();
     if (socketRef.current) {
-      socketRef.current.close();
+      socketRef.current.disconnect(false);
       socketRef.current = null;
     }
 
@@ -116,7 +116,7 @@ const App = () => {
         username.trim(),
       );
       sessionRef.current = session;
-      userIdRef.current = session.user_id;
+      userIdRef.current = session.user_id ?? null;
 
       const socket = client.createSocket(useSSL, false);
       await socket.connect(session, true);
