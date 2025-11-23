@@ -219,4 +219,6 @@ function InitModule(ctx, logger, nk, initializer) {
 // even if the build step or module system strips CommonJS exports.
 globalThis.InitModule = InitModule;
 // Preserve CommonJS exports for compatibility with tooling and tests.
-module.exports = { InitModule };
+if (typeof module !== 'undefined') {
+    module.exports = { InitModule };
+}

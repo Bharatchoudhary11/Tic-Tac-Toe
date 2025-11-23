@@ -303,4 +303,6 @@ function InitModule(ctx: Context, logger: Logger, nk: Nakama, initializer: Initi
 globalThis.InitModule = InitModule;
 
 // Preserve CommonJS exports for compatibility with tooling and tests.
-module.exports = { InitModule };
+if (typeof module !== 'undefined') {
+  module.exports = { InitModule };
+}
