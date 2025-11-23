@@ -297,8 +297,10 @@ function InitModule(ctx: Context, logger: Logger, nk: Nakama, initializer: Initi
   logger.info('Authoritative Tic-Tac-Toe module loaded.');
 }
 
-// Explicitly export the entrypoint to ensure Nakama can discover it when
-// loading the compiled JavaScript module. Without this assignment the
-// function remains scoped to the module wrapper and the server crashes while
-// trying to register the match handler.
+// Ensure Nakama can discover the entrypoint when loading the compiled module.
+// Assigning to the global object makes the function visible to the runtime
+// even if the build step or module system strips CommonJS exports.
+globalThis.InitModule = InitModule;
+
+// Preserve CommonJS exports for compatibility with tooling and tests.
 module.exports = { InitModule };
